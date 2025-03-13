@@ -1,5 +1,5 @@
 def is_prime(n):
-    """Überprüft, ob eine Zahl eine Primzahl ist."""
+    """Checks if a number is a prime number."""
     if n < 2:
         return False
     for i in range(2, int(n**0.5) + 1):
@@ -8,23 +8,23 @@ def is_prime(n):
     return True
 
 def read_numbers_from_file(filename):
-    """Liest eine Datei ein und gibt eine Liste von Zahlen zurück."""
+    """Reads a file and returns a list of numbers."""
     try:
         with open(filename, "r") as file:
             numbers = [int(line.strip()) for line in file.readlines()]
         return numbers
     except FileNotFoundError:
-        print("Fehler: Datei nicht gefunden.")
+        print("Error: File not found.")
         return []
     except ValueError:
-        print("Fehler: Datei enthält ungültige Werte.")
+        print("Error: File contains invalid values.")
         return []
 
 if __name__ == "__main__":
-    filename = "numbers.txt"  # Datei mit den Zahlen
+    filename = "numbers.txt"  # File containing the numbers
     numbers = read_numbers_from_file(filename)
 
     if numbers:
         for num in numbers:
-            result = "ist eine Primzahl." if is_prime(num) else "ist keine Primzahl."
+            result = "is a prime number." if is_prime(num) else "is not a prime number."
             print(f"{num} {result}")
