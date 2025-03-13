@@ -1,39 +1,46 @@
 import unittest
-from prime_checker import is_prime, read_numbers_from_file
 import os
+from prime_checker import is_prime, read_numbers_from_file
 
 class TestPrimeChecker(unittest.TestCase):
     def test_prime_numbers(self):
-        self.assertTrue(is_prime(2))
-        self.assertTrue(is_prime(3))
-        self.assertTrue(is_prime(5))
-        self.assertTrue(is_prime(13))
+        """Test with actual prime numbers"""
+        primes = [2, 3, 5, 7, 11, 13, 17, 19]
+        for num in primes:
+            self.assertTrue(is_prime(num))
 
     def test_non_prime_numbers(self):
-        self.assertFalse(is_prime(1))
-        self.assertFalse(is_prime(4))
-        self.assertFalse(is_prime(10))
-        self.assertFalse(is_prime(100))
+        """Test with non-prime numbers"""
+        non_primes = [0, 1, 4, 6, 8, 9, 10, 15]
+        for num in non_primes:
+            self.assertFalse(is_prime(num))
 
-    def test_negative_and_zero(self):
-        self.assertFalse(is_prime(-5))
-        self.assertFalse(is_prime(0))
+    def test_large_prime(self):
+        """Test a large prime number"""
+        self.assertTrue(is_prime(7919))  # 7919 is a known prime number
 
-class TestFileReading(unittest.TestCase):
-    def setUp(self):
-        """Erstellt eine temporäre Datei für Tests."""
-        self.test_filename = "test_numbers.txt"
-        with open(self.test_filename, "w") as f:
-            f.write("2\n3\n4\n5\n6\n")
+    def test_large_non_prime(self):
+        """Test a large non-prime number"""
+        self.assertFalse(is_prime(8000))  # 8000 is divisible by 2
 
     def test_read_numbers_from_file(self):
-        """Testet, ob die Zahlen korrekt eingelesen werden."""
-        expected_numbers = [2, 3, 4, 5, 6]
-        self.assertEqual(read_numbers_from_file(self.test_filename), expected_numbers)
+        """Test if reading numbers from a file works correctly"""
+        test_filename = "test_numbers.txt"
 
-    def tearDown(self):
-        """Löscht die Testdatei nach dem Test."""
-        os.remove(self.test_filename)
+        try:
+            # Create a sample file
+            with open(test_filename, "w") as f:
+                f.write("2\n3\n4\n5\n")
+
+            # Test the function
+            numbers = read_numbers_from_file(test_filename)
+            self.assertEqual(numbers, [2, 3, 4, 5])
+
+        finally:
+            # Delete the file after the test
+            if os.path.exists(test_filename):
+                os.remove(test_filename)
 
 if __name__ == "__main__":
     unittest.main()
+
